@@ -18,22 +18,33 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    const prompt = `당신은 전문 요리사입니다. 다음 재료들을 사용하여 한식, 중식, 지중해식, 일식, 양식 각 카테고리에서 2개씩 총 10개의 레시피를 추천해주세요.
+    const prompt = `You are a professional chef. Using the following ingredients, recommend 2 recipes for each of the 5 cuisine categories (total 10 recipes).
 
-사용 가능한 재료: ${ingredients.join(', ')}
+Available ingredients: ${ingredients.join(', ')}
 
-아래 JSON 스키마를 정확히 따르세요:
+Return ONLY a JSON object with this exact structure (use these exact English keys):
 {
   "recipes": {
-    "한식": [
-      {"name": "string", "description": "string", "usedIngredients": ["string"], "additionalIngredients": ["string"], "cookingTime": "string", "difficulty": "string", "steps": ["string"]}
+    "korean": [
+      {
+        "name": "recipe name in Korean",
+        "description": "brief description in Korean",
+        "usedIngredients": ["ingredient1", "ingredient2"],
+        "additionalIngredients": ["extra ingredient1"],
+        "cookingTime": "30분",
+        "difficulty": "쉬움",
+        "steps": ["step 1 in Korean", "step 2 in Korean", "step 3 in Korean"]
+      },
+      { same structure for second recipe }
     ],
-    "중식": [같은 구조로 2개],
-    "지중해식": [같은 구조로 2개],
-    "일식": [같은 구조로 2개],
-    "양식": [같은 구조로 2개]
+    "chinese": [ 2 recipes with same structure ],
+    "mediterranean": [ 2 recipes with same structure ],
+    "japanese": [ 2 recipes with same structure ],
+    "western": [ 2 recipes with same structure ]
   }
-}`;
+}
+
+All recipe names, descriptions, ingredients, and steps must be in Korean. difficulty must be one of: 쉬움, 보통, 어려움.`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
