@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: '재료를 입력해주세요.' }, { status: 400 });
     }
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
     const prompt = `당신은 전문 요리사입니다. 다음 재료들을 사용하여 5가지 카테고리에서 각 2개씩 총 10개의 레시피를 추천해주세요.
 
